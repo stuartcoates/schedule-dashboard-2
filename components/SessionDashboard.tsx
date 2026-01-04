@@ -56,7 +56,7 @@ useEffect(() => {
       const workbook = XLSX.read(fileData, {
         cellDates: true,
         cellStyles: true,
-        cellFormulas: true
+        cellFormula: true
       });
       
       const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -121,7 +121,7 @@ useEffect(() => {
             time,
             appointments: appointmentsWithPartyInfo.sort((a: any, b: any) => {
               // First sort by appointment type
-              const typeOrder = {
+              const typeOrder: Record<string, number> = {
                 'Springs': 1,
                 'Fitness': 2,
                 'Treatment': 3,
@@ -159,7 +159,7 @@ const checkWaiverStatus = (waivers: string[], appointmentDate: string | Date) =>
       .sort((a, b) => {
         const dateA = new Date(a.split('Waiver Added:')[1].split(' ')[1]);
         const dateB = new Date(b.split('Waiver Added:')[1].split(' ')[1]);
-        return dateB - dateA;
+        return dateB.getTime() - dateA.getTime();
       })[0];
 
     if (!latestWaiver) return false;
